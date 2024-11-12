@@ -1,4 +1,4 @@
-package com.wordcount;
+package com.kstreams.wordcount;
 
 import java.util.Arrays;
 
