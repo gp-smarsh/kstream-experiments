@@ -1,4 +1,4 @@
-package com.kstreams.wordcount;
+package com.kstreams;
 
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
@@ -13,8 +13,8 @@ public class KafkaProducer {
 
     private final KafkaTemplate<String, String> kafkaTemplate;
 
-    public void sendMessage(String message) {
-        kafkaTemplate.send("input-topic", message)
+    public void sendMessage(String message, String topic) {
+        kafkaTemplate.send(topic, message)
             .whenComplete((result, ex) -> {
                 if (ex == null) {
                     log.info("Message sent to topic: {}", message);

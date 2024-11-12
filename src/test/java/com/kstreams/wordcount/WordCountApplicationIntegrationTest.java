@@ -1,5 +1,6 @@
 package com.kstreams.wordcount;
 
+import com.kstreams.KafkaProducer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.LongDeserializer;
@@ -73,7 +74,7 @@ class WordCountApplicationIntegrationTest {
     }
     
     private void postMessage(String message) {
-        kafkaProducer.sendMessage(message);
+        kafkaProducer.sendMessage(message, "input-topic");
     }
 
 
