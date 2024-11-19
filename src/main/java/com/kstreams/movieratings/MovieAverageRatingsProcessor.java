@@ -5,10 +5,7 @@ import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsBuilder;
-import org.apache.kafka.streams.kstream.Consumed;
-import org.apache.kafka.streams.kstream.KTable;
-import org.apache.kafka.streams.kstream.Materialized;
-import org.apache.kafka.streams.kstream.Produced;
+import org.apache.kafka.streams.kstream.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -34,7 +31,7 @@ public class MovieAverageRatingsProcessor {
                 .toTable(Materialized.with(Serdes.Long(), ratingSerde));
 
         KTable<Long, RatingAggregator> averageRatings = ratingsTable
-                .groupBy((key, rating) -> KeyValue.pair(rating.movieId(), rating.rating()))
+                .groupBy((key, rating) -> KeyValue.pair(rating.movieId(), rating.rating()), Grouped.with(Serdes.Long(), Serdes.Integer()))
                 .aggregate(
                         () -> new RatingAggregator(0, 0),
                         (Long key, Integer newValue, RatingAggregator aggregate) -> {
